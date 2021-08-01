@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -73,3 +74,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ## Getting Started
 ## Architecture
 ## Change Log
+=======
+# city-explorer-
+>>>>>>> d753cde05f024728d2142c2fe283dbc7de035144
