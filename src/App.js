@@ -1,4 +1,7 @@
+import { render } from '@testing-library/react';
 import React from 'react';
+// import Main from './component/Main';
+
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -11,9 +14,12 @@ class App extends React.Component{
       displayTheName :'',
       lon :'',
       lat:'',
+      city:'',
+      latitude :'',
+      longitude:'',
       displayTheMap:false,
      displayerror:false,
-     theMsg : 'Unable to geocode',
+     theMsg : 'page not found',
 
 
     }
@@ -24,14 +30,16 @@ class App extends React.Component{
     event.preventDefault();
     let theCity = event.target.thecity.value;
     let url=`https://eu1.locationiq.com/v1/search.php?key=pk.0ea5125431a879434907a222356060aa&q=${theCity}&format=json`;
-
-    // let url=`https://eiq.com/v1/search5431a87a222356060aa&q=${theCity}&format=json`;
+    
     try{
     let getlocation = await  axios.get(url);
     this.setState({
    displayTheName: getlocation.data[0].display_name,
    lon: getlocation.data[0].lon,
    lat: getlocation.data[0].lat,
+   city:'city',
+   longitude:' longitude:',
+   latitude:' latitude:',
    displayTheMap:true
 
     });
@@ -59,9 +67,13 @@ class App extends React.Component{
         <button type='submit' class="btn btn-primary" >
           Explore!</button>
 
-      </form>
-      <p>{this.state.displayTheMap}</p>
-     {this.state.displayTheMap &&  <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.0ea5125431a879434907a222356060aa&center=${this.state.lat},${this.state.lon}&zoom=17`} alt='map'  style={{ height: '18rem'  } ,{ width: '18rem'  }} />}
+      </form> 
+      <p> {this.state.city} { this.state.displayTheName} {this.state.latitude}
+      {this.state.lat} {this.state.longitude}
+       {this.state.lon}</p>
+
+
+      {this.state.displayTheMap &&  <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.0ea5125431a879434907a222356060aa&center=${this.state.lat},${this.state.lon}&zoom=17`} alt='map'  style={{ height: '18rem'  } ,{ width: '18rem'  }} />}
 
 
   { this.state.displayErr && 
@@ -75,6 +87,13 @@ class App extends React.Component{
   }
 }
 
+// class App extends React.Component {
+//   render(){
+//     return(
+//       <Main/>
+//     )
+//   }
+// }
 export default App;
 
 
