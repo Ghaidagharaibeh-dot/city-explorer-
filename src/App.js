@@ -24,6 +24,9 @@ class App extends React.Component{
       displayerror:false,
      theMsg : 'page not found',
 
+    //  movies : [],
+
+
 
     }
 
@@ -32,8 +35,7 @@ class App extends React.Component{
   getlocationfun= async (event)=>{
     event.preventDefault();
     let theCity = event.target.thecity.value;
-    // let url=`https://eu1.locationiq.com/v1/search.php?key=pk.0ea5125431a879434907a222356060aa&q=${theCity}&format=json`;
-    let url=`https://eu1.locationiq.com/v1/search.php?key=pk.9130d092d331efd1975bc4caa749ef55	&q=${theCity}&format=json`;
+    let url=`https://eu1.locationiq.com/v1/search.php?key=pk.9130d092d331efd1975bc4caa749ef55&q=${theCity}&format=json`;
 
     try{
     let getlocation = await  axios.get(url);
@@ -57,6 +59,7 @@ class App extends React.Component{
     });
   }
   this.getWeatherdatafun(theCity);
+  // this.getMovieFun(theCity);
   }
  getWeatherdatafun=async(thecity)=>{
    console.log(this.state.theCity)
@@ -72,6 +75,19 @@ this.setState({
 });
  }
 
+
+//  getMovieFun = async(thecity) => {
+//   const url = `http://localhost:3001/getMovie?city=${thecity}`;
+//   let showMovie= await axios.get(url);
+//   let movieArr = showMovie.data.map((item) => {
+//     return `${item.title},${item.overview},${item.vote_average},${item.vote_count},${item.poster_path},${item.popularity},${item.release_date}` ;
+//   });
+//     this.setState({
+//       movies : movieArr
+
+//     })
+   
+// }
 
   render(){
     return(
@@ -98,6 +114,8 @@ this.setState({
        this.state.theMsg }
        
        <p>{this.state.weatherStrings} </p>
+
+       {/* <p>{this.state.movies} </p> */}
 <footer style={{fontSize:'1.5rem'}}>
 &copy;Code-Fellows
 </footer>
