@@ -3,7 +3,15 @@ import React from 'react';
 
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Table from 'react-bootstrap/Table'
 import './App.css';
+import Weather from './component/Weather'
+import Movie from './component/Movie'
+
+
+import Container from 'react-bootstrap/Container'
+
+
 
 
 class App extends React.Component{
@@ -24,7 +32,7 @@ class App extends React.Component{
       displayerror:false,
      theMsg : 'page not found',
 
-    //  movies : [],
+     movies : [],
 
 
 
@@ -59,35 +67,50 @@ class App extends React.Component{
     });
   }
   this.getWeatherdatafun(theCity);
-  // this.getMovieFun(theCity);
+  this.getMovieFun(theCity);
   }
- getWeatherdatafun=async(thecity)=>{
-   console.log(this.state.theCity)
-  let url=`http://localhost:3001/gettheservice?cityName=${thecity}&lon=${this.state.lon}&lat=${this.state.lat}`
 
-  let weatherdata = await axios.get(url);
-let arrforweather = weatherdata.data.map((item) => {
-  return `The Date is : ${item.date} and the description is : ${item.description}`;
-});
-this.setState({
-  weather: weatherdata.data,
-  weatherStrings: arrforweather,
-});
- }
+  getWeatherdatafun=async(thecity)=>{
+    console.log(this.state.theCity)
+   let url=`https://city-explorer-week2-level301.herokuapp.com/getWeather?cityName=${thecity}&lat=${this.state.lon}&lon=${this.state.lat}`
+ 
+   let weatherdata = await axios.get(url);
+ let arrforweather = weatherdata.data.map((item) => {
+   return item;
+    // `The Date is : ${item.date} and the description is : ${item.description}`;
+ });
+ this.setState({
+   weather: weatherdata.data,
+   weatherStrings: arrforweather,
+ });
+  }
+//  getWeatherdatafun=async(thecity)=>{
+//    console.log(this.state.theCity)
+//   let url=`http://localhost:3001/gettheservice?cityName=${thecity}&lon=${this.state.lon}&lat=${this.state.lat}`
+
+//   let weatherdata = await axios.get(url);
+// let arrforweather = weatherdata.data.map((item) => {
+//   return `The Date is : ${item.date} and the description is : ${item.description}`;
+// });
+// this.setState({
+//   weather: weatherdata.data,
+//   weatherStrings: arrforweather,
+// });
+//  }
 
 
-//  getMovieFun = async(thecity) => {
-//   const url = `http://localhost:3001/getMovie?city=${thecity}`;
-//   let showMovie= await axios.get(url);
-//   let movieArr = showMovie.data.map((item) => {
-//     return `${item.title},${item.overview},${item.vote_average},${item.vote_count},${item.poster_path},${item.popularity},${item.release_date}` ;
-//   });
-//     this.setState({
-//       movies : movieArr
+ getMovieFun = async(thecity) => {
+  const url = `https://city-explorer-week2-level301.herokuapp.com/getMovie?city=${thecity}`;
+  let showMovie= await axios.get(url);
+  let movieArr = showMovie.data.map((item) => {
+    return item;
+    });
+    this.setState({
+      movies : movieArr
 
-//     })
+    })
    
-// }
+}
 
   render(){
     return(
@@ -102,20 +125,74 @@ this.setState({
           Explore!</button>
 
       </form> 
-      <p> {this.state.city} { this.state.displayTheName} {this.state.latitude}
-      {this.state.lat} {this.state.longitude}
-       {this.state.lon}</p>
-
-
       {this.state.displayTheMap &&  <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.9130d092d331efd1975bc4caa749ef55&center=${this.state.lat},${this.state.lon}&zoom=17`} alt='map'  style={{ height: '18rem'  } ,{ width: '18rem'  }} />}
 
 
-  { this.state.displayErr && 
-       this.state.theMsg }
-       
-       <p>{this.state.weatherStrings} </p>
+      <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>City Name	</th>
+      <th>City Longitude</th>
+      <th>City Latitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>  {this.state.displayTheName}</td>
+      <td> {this.state.lat}</td>
+      <td>{this.state.lon}</td>
+    </tr>
+  </tbody>
+</Table>
 
-       {/* <p>{this.state.movies} </p> */}
+ { this.state.displayErr && 
+       this.state.theMsg }
+
+
+<div className="bg-secondary text-white p-1 text-center"><h5>Weather Data</h5></div>
+        <div>
+          <Container>
+          {this.state.weatherStrings.map((item)=>{
+return(
+  <Weather date={item.date} description={item.description}
+   />
+);
+})
+}
+          </Container>
+        </div>
+
+<br/> <br/> <br/>
+
+        <div className="bg-secondary text-white p-1 text-center"><h5>Movies Data</h5></div>
+        <div>
+          <Container>
+
+    
+
+ {this.state.movies.map((item)=>{
+
+              return(
+  <Movie 
+
+  title={item.title}
+  overview={item.overview}
+  vote_average={item.vote_average}
+  vote_count ={item.vote_count}
+    poster_path= {`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
+     popularity={item.popularity}
+ release_date={item.release_date}
+ /> 
+
+  )}) }
+
+
+
+         </Container>
+          </div>
+  
+      
+  
 <footer style={{fontSize:'1.5rem'}}>
 &copy;Code-Fellows
 </footer>
